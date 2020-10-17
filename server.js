@@ -1,20 +1,26 @@
 require("dotenv").config();
-let express = require("express");
-let request = require("request");
-let querystring = require("querystring");
-let scrape = require("./scrape");
-let app = express();
+const express = require("express");
+const request = require("request");
+const querystring = require("querystring");
+const scrape = require("./scrape");
+const app = express();
+const redirect_uri =
+  process.env.REDIRECT_URI || "http://localhost:3001/callback";
+const cors = require("cors");
 
-let redirect_uri = process.env.REDIRECT_URI || "http://localhost:3001/callback";
+//middleware
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/login", function (req, res) {
-  scrape.scrape();
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
-        scope: "user-read-private user-read-email",
+        scope:
+          "user-read-private user-read-email playlist-modify-public playlist-modify-private",
         redirect_uri,
       })
   );
@@ -45,6 +51,12 @@ app.get("/callback", function (req, res) {
     let uri = process.env.FRONTEND_URI || "http://localhost:3000";
     res.redirect(uri + "?access_token=" + access_token);
   });
+});
+
+app.post("/songs", async (req, res) => {
+  const link = req.body.youtube_playlist_link;
+  const playlist = await scrape.scrape(link);
+  res.json(playlist);
 });
 
 let port = process.env.PORT || 3001;

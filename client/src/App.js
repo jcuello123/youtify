@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
+import addToPlaylist from "./addtoplaylist";
 
 const theme = createMuiTheme({
   palette: {
@@ -77,12 +78,14 @@ function App() {
               InputProps={{ style: { color: "white" } }}
               label="YouTube playlist"
               variant="outlined"
+              id={playlist.name}
             />
           </ThemeProvider>
 
           <Button
             style={{ background: "#1db954", color: "white", margin: "10px" }}
             variant="contained"
+            onClick={() => addToPlaylist(playlist)}
           >
             Add to playlist
           </Button>

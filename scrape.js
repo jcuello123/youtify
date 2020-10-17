@@ -1,12 +1,10 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-async function scrape() {
+async function scrape(link) {
   let video_titles_arr = [];
 
-  const result = await axios.get(
-    "https://www.youtube.com/playlist?list=PL4o29bINVT4EG_y-k5jGoOu3-Am8Nvi10"
-  );
+  const result = await axios.get(link);
 
   const $ = await cheerio.load(result.data);
 
