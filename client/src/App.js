@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { accessToken } from "./accesstoken";
 import "./App.css";
-import { green } from "@material-ui/core/colors";
 import {
   TextField,
   Button,
@@ -12,7 +11,35 @@ import {
 
 const theme = createMuiTheme({
   palette: {
-    primary: green,
+    primary: {
+      main: "#1db954",
+    },
+  },
+  overrides: {
+    MuiOutlinedInput: {
+      root: {
+        position: "relative",
+        "& $notchedOutline": {
+          borderColor: "#1db954",
+        },
+        "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
+          borderColor: "#1db954",
+          // Reset on touch devices, it doesn't add specificity
+          "@media (hover: none)": {
+            borderColor: "#1db954",
+          },
+        },
+        "&$focused $notchedOutline": {
+          borderColor: "#1db954",
+          borderWidth: 1,
+        },
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: "#1db954",
+      },
+    },
   },
 });
 
@@ -38,7 +65,7 @@ function App() {
   return (
     <div className="App">
       {playlists.map((playlist, i) => (
-        <div className="playlist">
+        <div className="playlist" key={i}>
           <h1>Playlist: {playlist.name}</h1>
           <ThemeProvider theme={theme}>
             <TextField
@@ -47,8 +74,9 @@ function App() {
                 margin: "10px",
                 borderRadius: "7px",
               }}
+              InputProps={{ style: { color: "white" } }}
               label="YouTube playlist"
-              variant="filled"
+              variant="outlined"
             />
           </ThemeProvider>
 
