@@ -47,6 +47,12 @@ function App() {
       {playlists.map((playlist, i) => (
         <div className="playlist" key={i}>
           <h1>Playlist: {playlist.name}</h1>
+          {playlist.images.length > 0 && (
+            <img
+              style={{ width: "25%", borderRadius: "8px" }}
+              src={playlist.images[0].url}
+            />
+          )}
           <ThemeProvider theme={theme}>
             <TextField
               style={{
