@@ -2,47 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { accessToken } from "./accesstoken";
 import "./App.css";
-import {
-  TextField,
-  Button,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core";
+import { TextField, ThemeProvider } from "@material-ui/core";
+import { Buttons } from "./components/Buttons";
+import { theme } from "./theme";
+import { Snackbars } from "./components/Snackbars";
 import { displaySongs, addToPlaylist } from "./buttonshandler";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#1db954",
-    },
-  },
-  overrides: {
-    MuiOutlinedInput: {
-      root: {
-        position: "relative",
-        "& $notchedOutline": {
-          borderColor: "#1db954",
-        },
-        "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
-          borderColor: "#1db954",
-          // Reset on touch devices, it doesn't add specificity
-          "@media (hover: none)": {
-            borderColor: "#1db954",
-          },
-        },
-        "&$focused $notchedOutline": {
-          borderColor: "#1db954",
-          borderWidth: 1,
-        },
-      },
-    },
-    MuiFormLabel: {
-      root: {
-        color: "#1db954",
-      },
-    },
-  },
-});
 
 function App() {
   useEffect(() => {
@@ -61,7 +25,22 @@ function App() {
       .then((res) => setPlaylists(res.data.items));
   }
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    if (open_success) {
+      setOpenSuccess(false);
+    }
+    if (open_error) {
+      setOpenError(false);
+    }
+  };
+
   const [playlists, setPlaylists] = useState([]);
+  const [open_success, setOpenSuccess] = useState(false);
+  const [open_error, setOpenError] = useState(false);
 
   return (
     <div className="App">
@@ -82,25 +61,27 @@ function App() {
             />
           </ThemeProvider>
 
-          <div className={playlist.name.replaceAll(" ", "_").replace(/[^\w\s]/gi, "")}></div>
+          <div
+            className={playlist.name
+              .replaceAll(" ", "_")
+              .replace(/[^\w\s]/gi, "")}
+          ></div>
 
-          <Button
-            style={{ background: "#1db954", color: "white", margin: "10px" }}
-            variant="contained"
-            onClick={() => displaySongs(playlist)}
-          >
-            Show songs
-          </Button>
-
-          <Button
-            style={{ background: "#1db954", color: "white", margin: "10px" }}
-            variant="contained"
-            onClick={() => addToPlaylist(playlist)}
-          >
-            Add to {playlist.name}
-          </Button>
+          <Buttons
+            displaySongs={displaySongs}
+            playlist={playlist}
+            addToPlaylist={addToPlaylist}
+            setOpenSuccess={setOpenSuccess}
+            setOpenError={setOpenError}
+          />
         </div>
       ))}
+
+      <Snackbars
+        open_success={open_success}
+        open_error={open_error}
+        handleClose={handleClose}
+      />
     </div>
   );
 }

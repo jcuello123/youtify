@@ -2,11 +2,28 @@ import axios from "axios";
 import { accessToken } from "./accesstoken";
 
 let track_uris = [];
+let displayed_playlist;
 
 export async function displaySongs(playlist) {
+  const youtube_playlist_link = document.getElementById(playlist.name).value;
+
+  if (displayed_playlist && displayed_playlist.name !== playlist.name) {
+    let displayed_class_name = displayed_playlist.name
+      .replaceAll(" ", "_")
+      .replace(/[^\w\s]/gi, "");
+    track_uris = [];
+    document.querySelector(`.${displayed_class_name}`).innerHTML = "";
+    document.getElementById(displayed_class_name).value = "";
+  }
+
+  displayed_playlist = playlist;
+
+  if (!youtube_playlist_link) {
+    return;
+  }
+
   //remove displayed songs if any
   let class_name = playlist.name.replaceAll(" ", "_").replace(/[^\w\s]/gi, "");
-  console.log(class_name);
   let songs = document.querySelector(`.${class_name}`);
   songs.innerHTML = "";
 
@@ -34,9 +51,6 @@ export async function displaySongs(playlist) {
 
 async function getTrackUris(playlist) {
   const youtube_playlist_link = document.getElementById(playlist.name).value;
-  if (!youtube_playlist_link) {
-    return;
-  }
 
   let songs_and_track_uris = [];
 
@@ -79,8 +93,22 @@ function removeSong(div_class, song_and_track_uri) {
   document.querySelector(`.${div_class}`).remove();
 }
 
-export async function addToPlaylist(playlist) {
+export async function addToPlaylist(playlist, setOpenSuccess, setOpenError) {
   let class_name = playlist.name.replaceAll(" ", "_").replace(/[^\w\s]/gi, "");
+
+  setOpenSuccess(false);
+  setOpenError(false);
+
+  if (!displayed_playlist || displayed_playlist.name !== playlist.name) {
+    return;
+  }
+
+  if (track_uris.length > 0) {
+    setOpenSuccess(true);
+  } else {
+    setOpenError(true);
+    return;
+  }
 
   await axios.post(
     `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`,
@@ -96,5 +124,7 @@ export async function addToPlaylist(playlist) {
     }
   );
 
+  track_uris = [];
   document.querySelector(`.${class_name}`).innerHTML = "";
+  document.getElementById(class_name).value = "";
 }
