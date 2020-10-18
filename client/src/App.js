@@ -8,7 +8,7 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core";
-import addToPlaylist from "./addtoplaylist";
+import { displaySongs, addToPlaylist } from "./buttonshandler";
 
 const theme = createMuiTheme({
   palette: {
@@ -82,12 +82,22 @@ function App() {
             />
           </ThemeProvider>
 
+          <div className={playlist.name.replaceAll(" ", "_").replace(/[^\w\s]/gi, "")}></div>
+
+          <Button
+            style={{ background: "#1db954", color: "white", margin: "10px" }}
+            variant="contained"
+            onClick={() => displaySongs(playlist)}
+          >
+            Show songs
+          </Button>
+
           <Button
             style={{ background: "#1db954", color: "white", margin: "10px" }}
             variant="contained"
             onClick={() => addToPlaylist(playlist)}
           >
-            Add to playlist
+            Add to {playlist.name}
           </Button>
         </div>
       ))}

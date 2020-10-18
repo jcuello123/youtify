@@ -29,6 +29,7 @@ async function scrape(link) {
         let artist;
         let song_name;
 
+        
         //separate artist and song name for parsing invalid words ("ft.", "(Offical video)", etc)
         if (video_title.includes(" - ")) {
           artist = video_title.split(" - ")[0].toLowerCase();
