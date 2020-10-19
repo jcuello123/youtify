@@ -3,6 +3,7 @@ const express = require("express");
 const request = require("request");
 const querystring = require("querystring");
 const scrape = require("./scrape");
+const path = require("path");
 const app = express();
 const redirect_uri =
   process.env.REDIRECT_URI || "http://localhost:3001/callback";
@@ -12,11 +13,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-<<<<<<< HEAD
-app.use(express.static("client/build"));
-=======
 app.use(express.static(path.join(__dirname, "client/build")));
->>>>>>> a185574c4000b5ca65f4d8a551a77edc18f34547
 
 app.get("/login", function (req, res) {
   res.redirect(

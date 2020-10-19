@@ -1,6 +1,6 @@
 import axios from "axios";
 import { accessToken } from "./accesstoken";
-
+const SERVER_API = process.env.REACT_APP_SERVER_API || "http://localhost:3001";
 let track_uris = [];
 let displayed_playlist;
 
@@ -54,7 +54,7 @@ async function getTrackUris(playlist) {
 
   let songs_and_track_uris = [];
 
-  const res = await axios.post("http://localhost:3001/songs", {
+  const res = await axios.post(`${SERVER_API}/songs`, {
     youtube_playlist_link: youtube_playlist_link,
   });
 
