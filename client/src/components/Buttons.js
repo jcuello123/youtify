@@ -12,15 +12,25 @@ export const Buttons = (props) => {
   return (
     <React.Fragment>
       <Button
-        style={{ background: "#1db954", color: "white", margin: "10px" }}
+        style={{
+          background: "#1db954",
+          color: "white",
+          margin: "10px",
+          fontWeight: "550",
+        }}
         variant="contained"
         onClick={() => displaySongs(playlist)}
       >
-        Display playlist
+        Load playlist
       </Button>
 
       <Button
-        style={{ background: "#1db954", color: "white", margin: "10px" }}
+        style={{
+          background: "#1db954",
+          color: "white",
+          margin: "10px",
+          fontWeight: "550",
+        }}
         variant="contained"
         onClick={() => addToPlaylist(playlist, setOpenSuccess, setOpenError)}
       >

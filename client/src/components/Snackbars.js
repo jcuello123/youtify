@@ -18,8 +18,8 @@ export const Snackbars = (props) => {
 
       <Snackbar open={open_error} autoHideDuration={6000} onClose={handleClose}>
         <MultiAlert variant="filled" onClose={handleClose} severity="error">
-          There was an error when trying to add the playlist. Note: make sure
-          you display the songs first.
+          There was an error when trying to add the playlist. Note: Make sure
+          you load the playlist first.
         </MultiAlert>
       </Snackbar>
     </React.Fragment>

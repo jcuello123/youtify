@@ -11,7 +11,7 @@ export const theme = createMuiTheme({
       root: {
         position: "relative",
         "& $notchedOutline": {
-          borderColor: "#1db954",
+          borderColor: "white",
         },
         "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
           borderColor: "#1db954",
@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
     },
     MuiFormLabel: {
       root: {
-        color: "#1db954",
+        color: "white",
       },
     },
   },

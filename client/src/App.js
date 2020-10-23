@@ -44,15 +44,27 @@ function App() {
 
   return (
     <div className="App">
+      <div className="header">
+        <span>
+          <h1>YouT</h1>
+          <h1 className="green">ify</h1>
+        </span>
+      </div>
+
       {playlists.map((playlist, i) => (
         <div className="playlist" key={i}>
           <h1>Playlist: {playlist.name}</h1>
-          {playlist.images.length > 0 && (
-            <img
-              style={{ width: "25%", borderRadius: "8px" }}
-              src={playlist.images[0].url}
-            />
-          )}
+          <div className="pic">
+            {playlist.images.length > 0 && (
+              <img
+                style={{
+                  width: "100%",
+                  borderRadius: "8px",
+                }}
+                src={playlist.images[0].url}
+              />
+            )}
+          </div>
           <ThemeProvider theme={theme}>
             <TextField
               style={{
@@ -61,7 +73,7 @@ function App() {
                 borderRadius: "7px",
               }}
               InputProps={{ style: { color: "white" } }}
-              label="YouTube playlist"
+              label="YouTube playlist URL"
               variant="outlined"
               id={playlist.name}
             />
@@ -88,6 +100,10 @@ function App() {
         open_error={open_error}
         handleClose={handleClose}
       />
+
+      <div className="footer">
+        <p>Copyright ©2020 All rights reserved</p>
+      </div>
     </div>
   );
 }
