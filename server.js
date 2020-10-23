@@ -51,7 +51,7 @@ app.get("/callback", function (req, res) {
   request.post(authOptions, function (error, response, body) {
     var access_token = body.access_token;
     let uri = process.env.FRONTEND_URI || "http://localhost:3000";
-    res.redirect(uri + "?access_token=" + access_token);
+    res.redirect(`${uri}/playlists` + "?access_token=" + access_token);
   });
 });
 
@@ -59,6 +59,10 @@ app.post("/songs", async (req, res) => {
   const link = req.body.youtube_playlist_link;
   const playlist = await scrape.scrape(link);
   res.json(playlist);
+});
+
+app.get("*", function (req, res) {
+  res.redirect("/login");
 });
 
 let port = process.env.PORT || 3001;
