@@ -21,6 +21,15 @@ body {
   color: white;
 }
 
+#login_button {
+  color: #1db954;
+}
+
+#login_button,
+#view_playlists_text {
+  font-size: 32px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

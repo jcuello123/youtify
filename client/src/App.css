@@ -25,7 +25,7 @@
 .App {
   position: relative;
   min-height: 100%;
-  padding-bottom: 90px;
+  padding-bottom: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -69,7 +69,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 90px;
+  height: 40px;
   background: black;
   z-index: 2;
 }
@@ -79,9 +79,6 @@
 @media (max-width: 1024px) {
   .playlist {
     width: 33%;
-  }
-  .MuiInputBase-root {
-    font-size: 2px;
   }
 }
 
@@ -94,5 +91,8 @@
   }
   .playlist h1 {
     font-size: 16px;
+  }
+  .MuiTextField-root {
+    width: 90%;
   }
 }

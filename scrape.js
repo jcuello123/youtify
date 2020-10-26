@@ -29,7 +29,6 @@ async function scrape(link) {
         let artist;
         let song_name;
 
-        
         //separate artist and song name for parsing invalid words ("ft.", "(Offical video)", etc)
         if (video_title.includes(" - ")) {
           artist = video_title.split(" - ")[0].toLowerCase();
@@ -54,30 +53,48 @@ async function scrape(link) {
         let index_of_ft = song_name.indexOf("ft.");
         let end_index;
 
-        if (
+        const title_has_all_delimiters =
           index_of_paranthesis >= 0 &&
           index_of_bracket >= 0 &&
-          index_of_ft >= 0
-        ) {
+          index_of_ft >= 0;
+
+        const title_has_paran_and_brack_delimiters =
+          index_of_paranthesis >= 0 && index_of_bracket >= 0;
+
+        const title_has_paran_and_ft_delimiters =
+          index_of_paranthesis >= 0 && index_of_ft >= 0;
+
+        const title_has_brack_and_ft_delimiters =
+          index_of_bracket >= 0 && index_of_ft >= 0;
+
+        const title_has_just_paran_delimiter = index_of_paranthesis >= 0;
+
+        const title_just_has_brack_delimiter = index_of_bracket >= 0;
+
+        const title_just_has_ft_delimiter = index_of_ft >= 0;
+
+        if (title_has_all_delimiters) {
           end_index = Math.min(
             Math.min(index_of_paranthesis, index_of_bracket),
             index_of_ft
           );
-        } else if (index_of_paranthesis >= 0 && index_of_bracket >= 0) {
+        } else if (title_has_paran_and_brack_delimiters) {
           end_index = Math.min(index_of_paranthesis, index_of_bracket);
-        } else if (index_of_paranthesis >= 0 && index_of_ft >= 0) {
+        } else if (title_has_paran_and_ft_delimiters) {
           end_index = Math.min(index_of_paranthesis, index_of_ft);
-        } else if (index_of_bracket >= 0 && index_of_ft >= 0) {
+        } else if (title_has_brack_and_ft_delimiters) {
           end_index = Math.min(index_of_bracket, index_of_ft);
-        } else if (index_of_paranthesis >= 0) {
+        } else if (title_has_just_paran_delimiter) {
           end_index = index_of_paranthesis;
-        } else if (index_of_bracket >= 0) {
+        } else if (title_just_has_brack_delimiter) {
           end_index = index_of_bracket;
-        } else if (index_of_ft >= 0) {
+        } else if (title_just_has_ft_delimiter) {
           end_index = index_of_ft;
         }
 
-        if (end_index) {
+        const title_is_sliceable = end_index != undefined;
+
+        if (title_is_sliceable) {
           end_index--;
           song_name = song_name.slice(0, end_index);
         }
